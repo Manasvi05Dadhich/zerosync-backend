@@ -195,32 +195,6 @@ zerosync run
 curl http://localhost:3001/api/status
 ```
 
----
-
-## 🔗 Integration with Team
-
-### With Aayush (Smart Contracts)
-
-Once Aayush has the Anchor contract ready:
-
-1. Get the compiled contract ABI and bytecode
-2. Update `packages/contracts-interface/src/index.js`:
-   - Replace `ANCHOR_ABI` with his ABI
-   - Replace `ANCHOR_BYTECODE` with his bytecode
-3. Test deployment: `zerosync deploy`
-
-### With Himanshu (Frontend)
-
-1. Start the API: `zerosync run --port 3001`
-2. He connects to `http://localhost:3001/api`
-3. Dashboard can visualize:
-   - Real-time transaction flow
-   - Batch creation
-   - Proof generation
-   - Metrics
-
----
-
 ## 📊 Data Storage
 
 State is stored in `data/` directory:
@@ -238,7 +212,6 @@ data/
 
 - [ ] Add SQLite support (currently JSON only)
 - [ ] Real ZK proof integration (Plonky2/Halo2)
-- [ ] On-chain proof verification
 - [ ] Plugin system for Polygon CDK, zkSync Stack
 - [ ] WebSocket support for real-time updates
 - [ ] Gas estimation improvements
