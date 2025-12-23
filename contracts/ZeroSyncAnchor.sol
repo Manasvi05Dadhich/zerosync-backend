@@ -15,7 +15,7 @@ contract ZeroSyncAnchor {
     uint256 public latestRoot;
     uint256 public batchCount;
     
-    address public operator; // Can be upgraded to multi-sig or DAO
+    address public operator;
     bool public paused;
         
     struct BatchRecord {
@@ -24,13 +24,13 @@ contract ZeroSyncAnchor {
         uint256 newRoot;
         uint256 batchHash;
         uint256 timestamp;
-        bytes32 txHash; // L1 transaction hash
+        bytes32 txHash;
         address submitter;
         bool verified;
     }
     
     mapping(uint256 => BatchRecord) public batches;
-    mapping(uint256 => bool) public rootExists; // Prevent duplicate roots
+    mapping(uint256 => bool) public rootExists; 
     
     event ProofSubmitted(
         uint256 indexed batchId,
@@ -48,7 +48,7 @@ contract ZeroSyncAnchor {
     event Paused(address indexed by);
     event Unpaused(address indexed by);
     
-    // ============ Modifiers ============
+
     
     modifier onlyOperator() {
         require(msg.sender == operator, "Only operator can call");
