@@ -3,11 +3,6 @@ pragma solidity ^0.8.20;
 
 import "./Groth16Verifier.sol";
 
-/**
- * @title ZeroSyncAnchor
- * @dev Main rollup anchor contract that stores batch proofs and state roots
- * @notice This contract verifies ZK proofs and maintains the rollup state on L1
- */
 contract ZeroSyncAnchor {
 
     Groth16Verifier public verifier;
@@ -48,8 +43,6 @@ contract ZeroSyncAnchor {
     event Paused(address indexed by);
     event Unpaused(address indexed by);
     
-
-    
     modifier onlyOperator() {
         require(msg.sender == operator, "Only operator can call");
         _;
@@ -59,8 +52,6 @@ contract ZeroSyncAnchor {
         require(!paused, "Contract is paused");
         _;
     }
-    
-
     
     constructor(address _verifier, uint256 _genesisRoot) {
         require(_verifier != address(0), "Invalid verifier address");
@@ -74,13 +65,6 @@ contract ZeroSyncAnchor {
         rootExists[_genesisRoot] = true;
     }
     
-   
-     * @dev Submit a new batch with ZK proof
-     * @param a Proof point A
-     * @param b Proof point B
-     * @param c Proof point C
-     * @param publicSignals [oldRoot, newRoot, batchHash]
-     */
     function submitProof(
         uint256[2] memory a,
         uint256[2][2] memory b,
@@ -91,14 +75,12 @@ contract ZeroSyncAnchor {
         uint256 newRoot = publicSignals[1];
         uint256 batchHash = publicSignals[2];
         
-       
         require(oldRoot == latestRoot, "Old root mismatch");
         require(!rootExists[newRoot], "New root already exists");
         require(newRoot != oldRoot, "Roots must differ");
         
         bool isValid = verifier.verifyProof(a, b, c, publicSignals);
         require(isValid, "Invalid proof");
-        
         
         batchCount++;
         latestRoot = newRoot;
@@ -129,10 +111,6 @@ contract ZeroSyncAnchor {
         return batchCount;
     }
     
-    /**
-     * @dev Submit batch metadata only (for mock mode)
-     * @notice Used during development/testing without real proofs
-     */
     function submitBatchMock(
         uint256 oldRoot,
         uint256 newRoot,
@@ -154,7 +132,7 @@ contract ZeroSyncAnchor {
             timestamp: block.timestamp,
             txHash: bytes32(uint256(uint160(msg.sender))),
             submitter: msg.sender,
-            verified: false 
+            verified: false
         });
         
         emit ProofSubmitted(
@@ -168,8 +146,6 @@ contract ZeroSyncAnchor {
         
         return batchCount;
     }
-    
-  
     
     function getBatch(uint256 batchId) external view returns (BatchRecord memory) {
         require(batchId > 0 && batchId <= batchCount, "Invalid batch ID");
@@ -190,8 +166,6 @@ contract ZeroSyncAnchor {
     function isRootValid(uint256 root) external view returns (bool) {
         return rootExists[root];
     }
-    
-  
     
     function setOperator(address newOperator) external onlyOperator {
         require(newOperator != address(0), "Invalid operator address");
@@ -215,3 +189,4 @@ contract ZeroSyncAnchor {
         verifier = Groth16Verifier(newVerifier);
     }
 }
+
