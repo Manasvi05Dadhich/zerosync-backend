@@ -91,21 +91,19 @@ contract ZeroSyncAnchor {
         uint256 newRoot = publicSignals[1];
         uint256 batchHash = publicSignals[2];
         
-        // Validation
+       
         require(oldRoot == latestRoot, "Old root mismatch");
         require(!rootExists[newRoot], "New root already exists");
         require(newRoot != oldRoot, "Roots must differ");
         
-        // Verify the proof
         bool isValid = verifier.verifyProof(a, b, c, publicSignals);
         require(isValid, "Invalid proof");
         
-        // Update state
+        
         batchCount++;
         latestRoot = newRoot;
         rootExists[newRoot] = true;
         
-        // Store batch record
         batches[batchCount] = BatchRecord({
             batchId: batchCount,
             oldRoot: oldRoot,
@@ -156,7 +154,7 @@ contract ZeroSyncAnchor {
             timestamp: block.timestamp,
             txHash: bytes32(uint256(uint160(msg.sender))),
             submitter: msg.sender,
-            verified: false // Mock mode = not cryptographically verified
+            verified: false 
         });
         
         emit ProofSubmitted(
