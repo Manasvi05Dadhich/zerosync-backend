@@ -9,8 +9,7 @@ import "./Groth16Verifier.sol";
  * @notice This contract verifies ZK proofs and maintains the rollup state on L1
  */
 contract ZeroSyncAnchor {
-    // ============ State Variables ============
-    
+
     Groth16Verifier public verifier;
     
     uint256 public latestRoot;
@@ -18,9 +17,7 @@ contract ZeroSyncAnchor {
     
     address public operator; // Can be upgraded to multi-sig or DAO
     bool public paused;
-    
-    // ============ Structs ============
-    
+        
     struct BatchRecord {
         uint256 batchId;
         uint256 oldRoot;
@@ -32,12 +29,8 @@ contract ZeroSyncAnchor {
         bool verified;
     }
     
-    // ============ Storage ============
-    
     mapping(uint256 => BatchRecord) public batches;
     mapping(uint256 => bool) public rootExists; // Prevent duplicate roots
-    
-    // ============ Events ============
     
     event ProofSubmitted(
         uint256 indexed batchId,
@@ -67,7 +60,7 @@ contract ZeroSyncAnchor {
         _;
     }
     
-    // ============ Constructor ============
+
     
     constructor(address _verifier, uint256 _genesisRoot) {
         require(_verifier != address(0), "Invalid verifier address");
@@ -81,9 +74,7 @@ contract ZeroSyncAnchor {
         rootExists[_genesisRoot] = true;
     }
     
-    // ============ Core Functions ============
-    
-    /**
+   
      * @dev Submit a new batch with ZK proof
      * @param a Proof point A
      * @param b Proof point B
@@ -121,7 +112,7 @@ contract ZeroSyncAnchor {
             newRoot: newRoot,
             batchHash: batchHash,
             timestamp: block.timestamp,
-            txHash: bytes32(uint256(uint160(msg.sender))), // Placeholder
+            txHash: bytes32(uint256(uint160(msg.sender))),
             submitter: msg.sender,
             verified: true
         });
@@ -180,7 +171,7 @@ contract ZeroSyncAnchor {
         return batchCount;
     }
     
-    // ============ View Functions ============
+  
     
     function getBatch(uint256 batchId) external view returns (BatchRecord memory) {
         require(batchId > 0 && batchId <= batchCount, "Invalid batch ID");
@@ -202,7 +193,7 @@ contract ZeroSyncAnchor {
         return rootExists[root];
     }
     
-    // ============ Admin Functions ============
+  
     
     function setOperator(address newOperator) external onlyOperator {
         require(newOperator != address(0), "Invalid operator address");
