@@ -13,7 +13,7 @@ This monorepo contains:
 - **CLI** (`@zerosync/cli`) - Command-line interface for rollup management
 - **SDK Core** (`@zerosync/sdk-core`) - Sequencer, Proof Engine, State Manager
 - **API** (`@zerosync/api`) - Express REST API for frontend integration
-- **Contracts Interface** (`@zerosync/contracts-interface`) - Ethers.js wrapper for Aayush's Anchor contract
+- **Contracts Interface** (`@zerosync/contracts-interface`) - Ethers.js wrapper for Anchor contract
 
 ---
 
@@ -81,8 +81,6 @@ zerosync run --port 3001
 ```
 
 The API will start on `http://localhost:3001`
-
-Himanshu can now connect his frontend to these endpoints!
 
 ---
 
@@ -250,18 +248,6 @@ cd packages/sdk-core && npm install
 zerosync run --port 3002
 ```
 
----
-
-## 📝 Notes for Demo
-
-**Judge-Friendly Talking Points:**
-
-1. **One command setup**: `zerosync init` → instant rollup
-2. **Visual simulation**: `zerosync simulate --audit` shows gas savings
-3. **Production-ready API**: REST endpoints for any frontend
-4. **Extensible**: Plugin architecture for real ZK backends
-
----
 
 ## 👤 Maintainer
 
