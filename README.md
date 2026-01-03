@@ -1,6 +1,5 @@
 # ZeroSync Backend & SDK
 
-**Your part of the ZeroSync MVP - Backend, CLI, and SDK Core**
 
 Built by Manasvi
 
